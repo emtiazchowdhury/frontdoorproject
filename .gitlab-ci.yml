@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Build Job
+build:
+  stage: build
+  image: maven:3.8.6-jdk-11  # Use a Docker image with Maven and JDK
+  script:
+    - mvn clean install  # Clean and install your project
+  artifacts:
+    paths:
+      - target/*.jar  # Save the generated JAR files as artifacts
+
+# Test Job
+test:
+  stage: test
+  image: maven:3.8.6-jdk-11  # Maven + JDK for running tests
+  script:
+    - mvn test  # Run the tests using Maven
+  artifacts:
+    paths:
+      - target/test-logs/  # Save test logs if needed
+
+# Deploy Job (Optional, if you want to deploy after passing tests)
+deploy:
+  stage: deploy
+  image: maven:3.8.6-jdk-11  # Maven + JDK for deployment steps
+  script:
+    - echo "Deploying your application..."  # Replace with actual deploy command
